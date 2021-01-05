@@ -1,0 +1,152 @@
+---
+title: "IFRthemes"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{IFRthemes}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+# knitr::opts_chunk$set(
+#   collapse = TRUE,
+#   comment = "#>"
+# )
+```
+
+```{r setup, message=FALSE}
+library(IFRthemes)
+library(ggplot2)
+library(dplyr)
+```
+
+## Introduction
+
+All IFR plots should be produced in ggplot2 using a standard theme and consistent colour palette. The `IFRthemes` package allows the user to apply a custom IFR theme and two different colour palettes depending on the number of colours required.
+
+## Installation
+
+You can install the package from GitHub using the `remotes::install_github` function. Using *build_vignettes = TRUE* allows you to access this vignette.
+
+```{r load, eval=FALSE}
+remotes::install_github("InStreamFisheries/IFRthemes",
+                        build_vignettes = TRUE, 
+                        force = TRUE)
+library(IFRthemes)
+```
+
+Once the package is installed, you can access this vignette via the following command:
+
+```{r, eval = FALSE}
+browseVignettes("IFRthemes")
+```
+
+## Custom Theme
+
+To use the IFR theme, simply add *+ theme_ifr()* to a ggplot object.
+
+```{r, fig.height=5, fig.width=7}
+ggplot(mtcars, aes(mpg, disp)) + 
+  geom_point(size = 3) + 
+  theme_ifr()
+```
+
+The theme also formats panels.
+
+```{r, fig.height=4, fig.width=7}
+ggplot(mtcars, aes(mpg, disp)) + 
+  geom_point(size = 3) + 
+  facet_wrap(~cyl) +
+  theme_ifr()
+```
+
+### Changing Plot Text Size
+
+There is one argument to the theme: base_size, which scales the size of plot text. The function defaults to 16, which sizes nicely for 6 inch figures. In some cases (e.g., very large plots with lots of faceting) you may need to change the text size. The example below shows how to apply this argument.
+
+```{r, fig.height=4, fig.width=7}
+ggplot(mtcars, aes(mpg, disp)) + 
+  geom_point(size = 3) + 
+  facet_wrap(~cyl) +
+  theme_ifr(base_size = 10)
+```
+
+### Overwriting the Theme
+
+It's easy to adjust the theme. Below the theme is overwritten to angle the x-axis text.
+
+```{r, fig.height=5, fig.width=7}
+ggplot(mtcars, aes(mpg, disp)) + 
+  geom_point(size = 3) + 
+  theme_ifr() +
+  theme(legend.position = c(1, 1),
+        axis.text.x = element_text(angle = 45, 
+                                   hjust = 1))
+```
+
+## Colours
+
+We have created two colour pallettes for use within ggplot2. The first colour palette (`scale_colour_ifr` or `scale_fill_ifr`) consists of six colours that are complementary to IFR's logo, which should be used for all plots with six or less colours. The second palette (`scale_colour_ifr10` or `scale_fill_ifr10`) is a larger palette of 10 colourblind-friendly colours that is used whenever there are more than six colours in a plot (typically rare).
+
+The custom palettes are applied like any other ggplot colour palette.
+
+```{r, fig.height=5, fig.width=7}
+ggplot(mtcars, aes(as.factor(carb), fill = as.factor(carb))) + 
+  geom_bar() + 
+  scale_fill_ifr() +
+  theme_ifr()
+```
+
+```{r, fig.height=5, fig.width=7}
+ChickWeight %>%
+   mutate(Chick = as.factor(Chick)) %>%
+   group_by(Chick) %>%
+   summarise(Mean = mean(weight),
+            .groups = 'drop') %>%
+   slice(1:10) %>%
+   ggplot(., aes(x = Chick, y = Mean, fill = Chick)) +
+   geom_col() +
+   scale_fill_ifr10() +
+   theme_ifr() 
+```
+
+### Viewing IFR Colours
+
+A simple function (`show_colour_ifr`) was created to display the six custom colours and allow the user to select colours for a custom plot. For example, when overlaying multiple plot types or adding lines to plots, the user may want to select colours without applying the full palette.
+
+```{r, fig.height=4, fig.width=5}
+show_ifr_colours()
+```
+
+```{r, fig.height=5, fig.width=7}
+ggplot(mtcars, aes(mpg, disp)) + 
+  geom_point(size = 3) + 
+  theme_ifr() +
+  geom_vline(xintercept = 20, 
+             size = 3,
+             color = "#a40c01") +
+  geom_hline(yintercept = 300,
+             size = 3,
+             color = "#104692")
+```
+
+## Plotting Best Practices:
+
+1. Use ggplot2 whenever possible
+2. Save plots to file using ggsave:
+   * Resolution should be set to 600 dpi
+   * Scale the plot size using the inches argument
+   * Typically save plots as 6 inches wide to fit the width of a 8.5 x 11 sheet
+   * ggsave("plot.png", plot, height = 6, width = 6, units = "in", dpi = 600)
+3. Do not use titles on plots
+4. Always use legends rather than explaining the colours in the caption 
+5. Gridlines can be added if necessary for interpretation/clarity
+   * E.g., panel.grid.major.x = element_line(size = 0.25)
+6. Use commas or "K" if you numbers in the thousands as y-axis labels
+   * E.g., using the scales package: scale_y_continuous(label = comma)
+7. Angle your x-axis when necessary
+   * theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
+8. Don't use an x-axis label for time series data (e.g., dates or years)
+9. Use the abbreviated month when plotting dates:
+   * E.g., "2020-Jan-15", or "Jan-15" (if no year is required)
+

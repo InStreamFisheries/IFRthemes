@@ -1,0 +1,24 @@
+Package: IFRthemes
+Title: Functions to apply custom IFR ggplot2 themes
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Annika",
+           family = "Putt",
+           role = c("aut", "cre"),
+           email = "annika@instream.net")
+Description: All plots produced by InStream Fisheries Research should be created using ggplot2 and have a consistent theme and colour pallette. The functions within this package create custom IFR themes that standardized plot style, and colour schemes for plots with six colours or less and plots with seven to ten colours.
+Imports:
+    scales,
+    ggplot2,
+    dplyr
+URL: https://github.com/InStreamFisheries/IFRthemes
+BugReports: https://github.com/InStreamFisheries/IFRthemes/issues
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat
+VignetteBuilder: knitr
