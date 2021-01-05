@@ -15,7 +15,8 @@ show_ifr_colours <- function() {
   fakeDat <- data.frame(xdat = c(1, 2, 3, 4, 5, 6),
                         yday = rep(1, 6))
 
-  ggplot2::ggplot(fakeDat, ggplot2::aes(as.factor(xdat), fill = as.factor(xdat))) +
+  ggplot2::ggplot(fakeDat, ggplot2::aes(as.factor(xdat), 
+                                        fill = as.factor(xdat))) +
     ggplot2::geom_bar() +
     scale_fill_ifr() +
     ggplot2::xlab("") + ggplot2::ylab("") +

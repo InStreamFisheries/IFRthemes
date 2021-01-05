@@ -29,7 +29,7 @@ theme_ifr <- function(base_size = 16) {
       axis.text = ggplot2::element_text(size = rel(0.8)),
       axis.title = ggplot2::element_text(size = rel(1)),
       strip.background = ggplot2::element_rect(fill = NA),
-      strip.text = ggplot2::element_text(size = rel(1)),
+      strip.text = ggplot2::element_text(size = ggplot2::rel(1)),
       panel.grid.major = ggplot2::element_blank(),
       panel.grid.minor = ggplot2::element_blank()
     )

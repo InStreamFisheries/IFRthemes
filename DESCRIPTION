@@ -6,7 +6,7 @@ Authors@R:
            family = "Putt",
            role = c("aut", "cre"),
            email = "annika@instream.net")
-Description: All plots produced by InStream Fisheries Research should be created using ggplot2 and have a consistent theme and colour pallette. The functions within this package create custom IFR themes that standardized plot style, and colour schemes for plots with six colours or less and plots with seven to ten colours.
+Description: All plots produced by InStream Fisheries Research should be created using ggplot2 and have a consistent theme and colour palette. The functions within this package create custom IFR themes that standardize plot styles and colour schemes for plots with six colours or less and plots with seven to ten colours.
 Imports:
     scales,
     ggplot2,
