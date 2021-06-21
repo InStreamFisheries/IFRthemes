@@ -21,10 +21,3 @@ scale_colour_ifr10 <- function(...) {
                  "ifr",
                  scales::manual_pal(values = ifr_colours10()), ...)
 }
-
-scale_color_ifr10 <- scale_colour_ifr10
-
-
-
-
-
