@@ -1,7 +1,7 @@
 #' @title Loads IFR colour palette for less than six colours
 #'
 #' @description This is an internal function to load IFR colour palette.
-#' @details None.
+#' @details None
 #' @examples
 #' ifr_colours() +
 #' @export
